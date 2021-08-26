@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import cc.eoma.clipboard.synchronizer.SyncType;
 import cc.eoma.clipboard.synchronizer.Synchronizer;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView textView;
     private Handler handler;
+    private MyApplication application;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,12 +26,13 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
 
         handler = new Handler();
+        application = (MyApplication) getApplication();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        handler.postDelayed(() -> getClipboardContent(), 100);
+        handler.postDelayed(this::getClipboardContent, 100);
     }
 
     @Override
@@ -43,15 +44,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getClipboardContent() {
-        MyApplication application = (MyApplication) getApplication();
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = clipboardManager.getPrimaryClip();
         if (clipData == null || clipData.getItemCount() == 0) {
             return;
         }
-//        new Thread(() -> {
-            CharSequence text = clipData.getItemAt(0).getText();
-            Synchronizer.send(application.getSyncType(), text.toString());
-//        }).start();
+        CharSequence text = clipData.getItemAt(0).getText();
+        Synchronizer.send(application.getSyncType(), text.toString());
     }
 }

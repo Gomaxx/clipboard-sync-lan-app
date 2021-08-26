@@ -3,6 +3,7 @@ package cc.eoma.clipboard.synchronizer.receiver;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.Objects;
 
 public class MultiCastReceiver implements Receiver {
     @Override
@@ -28,11 +29,10 @@ public class MultiCastReceiver implements Receiver {
     private void handler(MulticastSocket multicastSocket, DatagramPacket datagramPacket, MyHandler handler) {
         try {
             multicastSocket.receive(datagramPacket);
-            if (InetAddress.getLocalHost().getHostAddress().equals(datagramPacket.getAddress().getHostAddress())) {
+            if (Objects.equals(InetAddress.getLocalHost().getHostAddress(), datagramPacket.getAddress().getHostAddress())) {
                 return;
             }
             // String message = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
-
             byte[] xxx = new byte[datagramPacket.getLength()];
             System.arraycopy(datagramPacket.getData(), 0, xxx, 0, datagramPacket.getLength());
             handler.process(xxx);

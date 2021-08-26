@@ -32,7 +32,6 @@ public class ClipboardService extends Service {
         primaryClipChangedListener = () -> {
             if (clipboardManager.hasPrimaryClip() && clipboardManager.getPrimaryClip().getItemCount() > 0) {
                 CharSequence content = clipboardManager.getPrimaryClip().getItemAt(0).getText();
-                Toast.makeText(this, content, Toast.LENGTH_LONG).show();
                 sender(content.toString());
             }
         };
@@ -54,7 +53,6 @@ public class ClipboardService extends Service {
     private void startReceiver() {
         Synchronizer.receive(application.getSyncType(), clipboardManager);
     }
-
 
     private void sender(String content) {
         new Thread(() -> {
