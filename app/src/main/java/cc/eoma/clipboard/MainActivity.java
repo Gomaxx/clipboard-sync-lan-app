@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
         ScreenBroadcastReceiver screenOnReceiver = new ScreenBroadcastReceiver();
         registerReceiver(screenOnReceiver, filter);
     }
