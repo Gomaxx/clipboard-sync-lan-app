@@ -6,3 +6,7 @@
 主要工作：
 1. 监听系统剪切板，当剪切板有新信息时，发送局域网广播信息
 2. 接收广播信息，将信息设置到系统剪切板上
+
+
+参考：
+https://stackoverflow.com/questions/6550618/multicast-support-on-android-in-hotspot-tethering-mode
