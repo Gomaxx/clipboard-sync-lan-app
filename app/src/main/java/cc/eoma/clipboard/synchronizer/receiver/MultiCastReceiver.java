@@ -3,16 +3,13 @@ package cc.eoma.clipboard.synchronizer.receiver;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-public class MultiCastReceiver implements Receiver {
-    @Override
-    public void receive(MyHandler handler) {
-        this.receive("228.5.6.7", 11222, handler);
-    }
+import cc.eoma.clipboard.synchronizer.ReceiverHandler;
 
-    @Override
-    public void receive(String multiCastAddr, Integer port, MyHandler handler) {
+public class MultiCastReceiver {
+    public void receive(String multiCastAddr, Integer port, ReceiverHandler handler) {
         try (MulticastSocket multicastSocket = new MulticastSocket(port)) {
             multicastSocket.joinGroup(InetAddress.getByName(multiCastAddr));
             byte[] bytes = new byte[1024 * 10];
@@ -26,16 +23,16 @@ public class MultiCastReceiver implements Receiver {
         }
     }
 
-    private void handler(MulticastSocket multicastSocket, DatagramPacket datagramPacket, MyHandler handler) {
+    private void handler(MulticastSocket multicastSocket, DatagramPacket datagramPacket, ReceiverHandler handler) {
         try {
             multicastSocket.receive(datagramPacket);
             if (Objects.equals(InetAddress.getLocalHost().getHostAddress(), datagramPacket.getAddress().getHostAddress())) {
                 return;
             }
-            // String message = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
-            byte[] xxx = new byte[datagramPacket.getLength()];
-            System.arraycopy(datagramPacket.getData(), 0, xxx, 0, datagramPacket.getLength());
-            handler.process(xxx);
+            String message = new String(datagramPacket.getData(), 0, datagramPacket.getLength(), StandardCharsets.UTF_8);
+            // byte[] xxx = new byte[datagramPacket.getLength()];
+            // System.arraycopy(datagramPacket.getData(), 0, xxx, 0, datagramPacket.getLength());
+            handler.process(message);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

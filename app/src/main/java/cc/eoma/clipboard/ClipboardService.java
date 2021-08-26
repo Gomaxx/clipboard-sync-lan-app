@@ -5,9 +5,11 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import cc.eoma.clipboard.MyApplication;
 import cc.eoma.clipboard.synchronizer.Synchronizer;
 
 public class ClipboardService extends Service {
@@ -37,7 +39,6 @@ public class ClipboardService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         clipboardManager.addPrimaryClipChangedListener(primaryClipChangedListener);
-        new Thread(this::startReceiver).start();
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -45,10 +46,6 @@ public class ClipboardService extends Service {
     public void onDestroy() {
         super.onDestroy();
         clipboardManager.removePrimaryClipChangedListener(primaryClipChangedListener);
-    }
-
-    private void startReceiver() {
-        Synchronizer.receive(application.getSyncType(), clipboardManager);
     }
 
     private void sender(String content) {

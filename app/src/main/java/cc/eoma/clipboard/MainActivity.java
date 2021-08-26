@@ -4,10 +4,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,9 +25,19 @@ public class MainActivity extends AppCompatActivity {
         intent.setClass(MainActivity.this, ClipboardService.class);
         startService(intent);
 
+
+        Intent intentx = new Intent();
+        intentx.setClass(MainActivity.this, ReceiverService.class);
+        startService(intentx);
+
         handler = new Handler();
         application = (MyApplication) getApplication();
 
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        ScreenBroadcastReceiver screenOnReceiver = new ScreenBroadcastReceiver();
+        registerReceiver(screenOnReceiver, filter);
     }
 
     @Override

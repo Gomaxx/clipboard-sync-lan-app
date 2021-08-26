@@ -1,15 +1,11 @@
 package cc.eoma.clipboard.synchronizer;
 
-import android.content.ClipboardManager;
-import android.widget.TextView;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.UUID;
 
 import cc.eoma.clipboard.synchronizer.receiver.BroadcastReceiver;
 import cc.eoma.clipboard.synchronizer.receiver.MultiCastReceiver;
-import cc.eoma.clipboard.synchronizer.receiver.MyHandler;
 import cc.eoma.clipboard.synchronizer.sender.BroadcastSender;
 import cc.eoma.clipboard.synchronizer.sender.MultiCastSender;
 
@@ -26,7 +22,6 @@ public class Synchronizer {
         if ("".equals(message) || messages.contains(getMd5(message))) {
             return;
         }
-        System.out.println("----------------------> send:" + message);
         if (syncType.equals(SyncType.Broadcast)) {
             BroadcastSender.send(message);
         } else if (syncType.equals(SyncType.Multicast)) {
@@ -34,8 +29,7 @@ public class Synchronizer {
         }
     }
 
-    public static void receive(SyncType syncType, ClipboardManager clipboardManager) {
-        MyHandler handler = new MyHandler(clipboardManager);
+    public static void receive(SyncType syncType, ReceiverHandler handler) {
         // 可以考虑 提炼接口  统一回调 处理
         if (syncType.equals(SyncType.Broadcast)) {
             BroadcastReceiver receiver = new BroadcastReceiver();
