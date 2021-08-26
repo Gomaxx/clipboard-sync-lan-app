@@ -1,6 +1,7 @@
 package cc.eoma.clipboard.synchronizer;
 
 import android.content.ClipboardManager;
+import android.widget.TextView;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -16,7 +17,7 @@ public class Synchronizer {
     private static FixedSizeList<String> messages = new FixedSizeList<>();
 
     /**
-     * 手机热点时，组播方式无法发送，因为此时手机相当于网关，跟其他接入设备不属于同一网段
+     * 手机热点时，组播方式无法接收组播信息
      *
      * @param syncType .
      * @param message  .
@@ -25,7 +26,6 @@ public class Synchronizer {
         if ("".equals(message) || messages.contains(getMd5(message))) {
             return;
         }
-
         System.out.println("----------------------> send:" + message);
         if (syncType.equals(SyncType.Broadcast)) {
             BroadcastSender.send(message);
@@ -50,10 +50,6 @@ public class Synchronizer {
         messages.add(getMd5(message));
     }
 
-    public static Boolean contains(String message) {
-        return messages.contains(getMd5(message));
-    }
-
     private static String getMd5(String message) {
         try {
             byte[] hash = MessageDigest.getInstance("MD5").digest(message.getBytes(StandardCharsets.UTF_8));
@@ -67,6 +63,5 @@ public class Synchronizer {
             ex.printStackTrace();
             return UUID.randomUUID().toString();
         }
-
     }
 }

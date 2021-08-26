@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         handler = new Handler();
         application = (MyApplication) getApplication();
+
     }
 
     @Override
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         CharSequence text = clipData.getItemAt(0).getText();
-        Synchronizer.send(application.getSyncType(), text.toString());
+
+        new Thread(() -> Synchronizer.send(application.getSyncType(), text.toString())).start();
     }
 }

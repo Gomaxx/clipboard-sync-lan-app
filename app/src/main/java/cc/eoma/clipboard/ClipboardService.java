@@ -5,13 +5,10 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import cc.eoma.clipboard.synchronizer.Synchronizer;
-import cc.eoma.clipboard.synchronizer.receiver.BroadcastReceiver;
-import cc.eoma.clipboard.synchronizer.sender.BroadcastSender;
 
 public class ClipboardService extends Service {
     MyApplication application;
@@ -55,8 +52,6 @@ public class ClipboardService extends Service {
     }
 
     private void sender(String content) {
-        new Thread(() -> {
-            Synchronizer.send(application.getSyncType(), content);
-        }).start();
+        new Thread(() -> Synchronizer.send(application.getSyncType(), content)).start();
     }
 }

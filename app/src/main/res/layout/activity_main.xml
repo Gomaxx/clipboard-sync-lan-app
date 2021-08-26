@@ -3,31 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:background="@drawable/background"
     android:orientation="vertical"
-    >
-
-
-    <EditText
-        android:id="@+id/command"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/getIp"/>
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="636dp"
-        android:padding="5pt"
+        android:layout_height="match_parent"
         android:text="@string/description"
-        android:textIsSelectable="true"
-        android:scrollbars="vertical"/>
-
+        android:textIsSelectable="true" />
 </LinearLayout>
