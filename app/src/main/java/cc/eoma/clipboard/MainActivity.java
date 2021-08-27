@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
         handler = new Handler();
         application = (MyApplication) getApplication();
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_ON);
-        ScreenBroadcastReceiver screenOnReceiver = new ScreenBroadcastReceiver();
-        registerReceiver(screenOnReceiver, filter);
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction(Intent.ACTION_SCREEN_ON);
+//        ScreenBroadcastReceiver screenOnReceiver = new ScreenBroadcastReceiver();
+//        registerReceiver(screenOnReceiver, filter);
     }
 
     @Override
